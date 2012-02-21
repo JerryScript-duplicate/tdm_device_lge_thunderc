@@ -1,0 +1,3 @@
+Device Folder for lg p500 for compile ICS. 
+
+for a succesful compile substitute in the builded zip libsurfaceflinger.so and boot.img that you can find in prebuilt folder
