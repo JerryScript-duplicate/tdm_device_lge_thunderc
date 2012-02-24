@@ -1,5 +1,5 @@
 $(call inherit-product, build/target/product/full.mk)
-#$(call inherit-product, build/target/product/languages_small.mk)
+$(call inherit-product, build/target/product/languages_small.mk)
 $(call inherit-product, vendor/cm/config/common.mk)
 $(call inherit-product-if-exists, vendor/lge/thunderc/thunderc-vendor.mk)
 
@@ -25,7 +25,6 @@ PRODUCT_COPY_FILES += \
     vendor/lge/thunderc/proprietary/thunder_keypad.kcm.bin:system/usr/keychars/thunder_keypad.kcm.bin \
 
 PRODUCT_COPY_FILES += \
-    device/lge/thunderc/prebuilt/etc/AudioFilter.csv:system/etc/AudioFilter.csv \
     device/lge/thunderc/prebuilt/etc/AudioFilter.csv:system/etc/AudioFilter.csv \
     vendor/lge/thunderc/proprietary/etc/init.local.rc:system/etc/init.local.rc \
     vendor/lge/thunderc/proprietary/etc/init.thunderc.usb.rc:system/etc/init.thunderc.usb.rc \
@@ -290,10 +289,6 @@ PRODUCT_COPY_FILES += \
 # Bluetooth
 PRODUCT_COPY_FILES += \
     vendor/lge/thunderc/proprietary/bin/BCM4325D1_004.002.004.0218.0248.hcd:system/etc/firmware/BCM4325D1_004.002.004.0218.0248.hcd
-    
-# FONTS
-PRODUCT_COPY_FILES += \
-    vendor/lge/thunderc/proprietary/fonts/Noxchia.ttf:system/fonts/Noxchia.ttf
 
 # IDC file
 PRODUCT_COPY_FILES += \
@@ -315,6 +310,7 @@ PRODUCT_BRAND := LGE
 PRODUCT_DEVICE := thunderc
 PRODUCT_MODEL := LG-VM670
 PRODUCT_MANUFACTURER := LGE
+PRODUCT_VERSION_DEVICE_SPECIFIC := BACKside
 
 CDMA_GOOGLE_BASE := android-sprint-us
 CDMA_CARRIER_ALPHA := Virgin_Mobile
