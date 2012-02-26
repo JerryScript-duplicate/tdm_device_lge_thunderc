@@ -67,25 +67,24 @@ PRODUCT_COPY_FILES += \
 
 # OFFLINE CHARGING
 PRODUCT_COPY_FILES += \
-    device/lge/thunderc/files/initlogo.rle:root/initlogo.rle \
-    device/lge/thunderc/files/chargerlogo:root/sbin/chargerlogo \
-    device/lge/thunderc/files/chargerimages/battery_ani_01.rle:root/chargerimages/battery_ani_01.rle \
-    device/lge/thunderc/files/chargerimages/battery_ani_02.rle:root/chargerimages/battery_ani_02.rle \
-    device/lge/thunderc/files/chargerimages/battery_ani_03.rle:root/chargerimages/battery_ani_03.rle \
-    device/lge/thunderc/files/chargerimages/battery_ani_04.rle:root/chargerimages/battery_ani_04.rle \
-    device/lge/thunderc/files/chargerimages/battery_ani_05.rle:root/chargerimages/battery_ani_05.rle \
-    device/lge/thunderc/files/chargerimages/battery_charging_01.rle:root/chargerimages/battery_charging_01.rle \
-    device/lge/thunderc/files/chargerimages/battery_charging_02.rle:root/chargerimages/battery_charging_02.rle \
-    device/lge/thunderc/files/chargerimages/battery_charging_03.rle:root/chargerimages/battery_charging_03.rle \
-    device/lge/thunderc/files/chargerimages/battery_charging_04.rle:root/chargerimages/battery_charging_04.rle \
-    device/lge/thunderc/files/chargerimages/battery_charging_05.rle:root/chargerimages/battery_charging_05.rle \
-    device/lge/thunderc/files/chargerimages/battery_charging_06.rle:root/chargerimages/battery_charging_06.rle \
-    device/lge/thunderc/files/chargerimages/battery_notenough.rle:root/chargerimages/battery_notenough.rle \
-    device/lge/thunderc/files/chargerimages/battery_bg.rle:root/chargerimages/battery_bg.rle \
-    device/lge/thunderc/files/chargerimages/black_bg.rle:root/chargerimages/black_bg.rle \
-    device/lge/thunderc/files/chargerimages/battery_wait_ani_01.rle:root/chargerimages/battery_wait_ani_01.rle \
-    device/lge/thunderc/files/chargerimages/battery_wait_ani_01.rle:root/chargerimages/battery_wait_ani_02.rle \
-    device/lge/thunderc/files/etc/init.local.rc:/system/etc/init.local.rc
+    device/lge/thunderc/prebuilt/initlogo.rle:root/initlogo.rle \
+    device/lge/thunderc/chargemode/chargerlogo:root/sbin/chargerlogo \
+    device/lge/thunderc/chargemode/chargerimages/battery_ani_01.rle:root/chargerimages/battery_ani_01.rle \
+    device/lge/thunderc/chargemode/chargerimages/battery_ani_02.rle:root/chargerimages/battery_ani_02.rle \
+    device/lge/thunderc/chargemode/chargerimages/battery_ani_03.rle:root/chargerimages/battery_ani_03.rle \
+    device/lge/thunderc/chargemode/chargerimages/battery_ani_04.rle:root/chargerimages/battery_ani_04.rle \
+    device/lge/thunderc/chargemode/chargerimages/battery_ani_05.rle:root/chargerimages/battery_ani_05.rle \
+    device/lge/thunderc/chargemode/chargerimages/battery_charging_01.rle:root/chargerimages/battery_charging_01.rle \
+    device/lge/thunderc/chargemode/chargerimages/battery_charging_02.rle:root/chargerimages/battery_charging_02.rle \
+    device/lge/thunderc/chargemode/chargerimages/battery_charging_03.rle:root/chargerimages/battery_charging_03.rle \
+    device/lge/thunderc/chargemode/chargerimages/battery_charging_04.rle:root/chargerimages/battery_charging_04.rle \
+    device/lge/thunderc/chargemode/chargerimages/battery_charging_05.rle:root/chargerimages/battery_charging_05.rle \
+    device/lge/thunderc/chargemode/chargerimages/battery_charging_06.rle:root/chargerimages/battery_charging_06.rle \
+    device/lge/thunderc/chargemode/chargerimages/battery_notenough.rle:root/chargerimages/battery_notenough.rle \
+    device/lge/thunderc/chargemode/chargerimages/battery_bg.rle:root/chargerimages/battery_bg.rle \
+    device/lge/thunderc/chargemode/chargerimages/black_bg.rle:root/chargerimages/black_bg.rle \
+    device/lge/thunderc/chargemode/chargerimages/battery_wait_ani_01.rle:root/chargerimages/battery_wait_ani_01.rle \
+    device/lge/thunderc/chargemode/chargerimages/battery_wait_ani_01.rle:root/chargerimages/battery_wait_ani_02.rle \
 
 # Locate vendor bootimage files, or use generic files if not present.
 #
@@ -97,12 +96,9 @@ PRODUCT_COPY_FILES += \
 # Also note that both the bootlogo and chargerlogo files might fit in
 # better under vendor/lge/thunderc/proprietary.
 PRODUCT_COPY_FILES += \
-    device/lge/thunderc/files/bootlogo:root/sbin/bootlogo
+    device/lge/thunderc/bootlogo:root/sbin/bootlogo
 
-BOOTIMAGE_FILES := $(wildcard device/lge/thunderc/files/$(SUB_MODEL)/bootimages/*.rle)
-ifeq ($(BOOTIMAGE_FILES),)
-BOOTIMAGE_FILES := $(wildcard device/lge/thunderc/files/GENERIC/bootimages/*.rle)
-endif
+BOOTIMAGE_FILES := $(wildcard device/lge/thunderc/bootlogo/bootimages/*.rle)
 PRODUCT_COPY_FILES += \
     $(foreach f,$(BOOTIMAGE_FILES),$(f):root/bootimages/$(notdir $(f)))
 
