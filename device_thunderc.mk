@@ -177,7 +177,7 @@ PRODUCT_COPY_FILES += \
 
 # Bootsound (copy shell script)
 PRODUCT_COPY_FILES += \
-    vendor/cyanogen/prebuilt/common/bin/bootsound:system/bin/bootsound
+    vendor/proprietary/bin/bootsound:system/bin/bootsound
 
 # Device permissions
 PRODUCT_COPY_FILES += \
