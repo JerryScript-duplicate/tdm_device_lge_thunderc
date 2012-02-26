@@ -67,31 +67,45 @@ PRODUCT_COPY_FILES += \
 
 # OFFLINE CHARGING
 PRODUCT_COPY_FILES += \
-    device/lge/thunderc/bootlogo/bootlogo:root/sbin/bootlogo \
-    device/lge/thunderc/bootlogo/bootimages/opening_01.rle:root/bootimages/opening_01.rle \
-    device/lge/thunderc/bootlogo/bootimages/opening_02.rle:root/bootimages/opening_02.rle \
-    device/lge/thunderc/bootlogo/bootimages/opening_03.rle:root/bootimages/opening_03.rle \
-    device/lge/thunderc/bootlogo/bootimages/opening_04.rle:root/bootimages/opening_04.rle \
-    device/lge/thunderc/bootlogo/bootimages/opening_05.rle:root/bootimages/opening_05.rle \
-    device/lge/thunderc/bootlogo/bootimages/opening_06.rle:root/bootimages/opening_06.rle \
-    device/lge/thunderc/bootlogo/bootimages/opening_07.rle:root/bootimages/opening_07.rle \
-    device/lge/thunderc/bootlogo/bootimages/opening_08.rle:root/bootimages/opening_08.rle \
-    device/lge/thunderc/chargemode/chargerlogo:root/sbin/chargerlogo \
-    device/lge/thunderc/chargemode/chargerimages/black_bg.rle:root/chargerimages/black_bg.rle \
-    device/lge/thunderc/chargemode/chargerimages/battery_bg.rle:root/chargerimages/battery_bg.rle \
-    device/lge/thunderc/chargemode/chargerimages/battery_ani_01.rle:root/chargerimages/battery_ani_01.rle \
-    device/lge/thunderc/chargemode/chargerimages/battery_ani_02.rle:root/chargerimages/battery_ani_02.rle \
-    device/lge/thunderc/chargemode/chargerimages/battery_ani_03.rle:root/chargerimages/battery_ani_03.rle \
-    device/lge/thunderc/chargemode/chargerimages/battery_ani_04.rle:root/chargerimages/battery_ani_04.rle \
-    device/lge/thunderc/chargemode/chargerimages/battery_ani_05.rle:root/chargerimages/battery_ani_05.rle \
-    device/lge/thunderc/chargemode/chargerimages/battery_charging_01.rle:root/chargerimages/battery_charging_01.rle \
-    device/lge/thunderc/chargemode/chargerimages/battery_charging_02.rle:root/chargerimages/battery_charging_02.rle \
-    device/lge/thunderc/chargemode/chargerimages/battery_charging_03.rle:root/chargerimages/battery_charging_03.rle \
-    device/lge/thunderc/chargemode/chargerimages/battery_charging_04.rle:root/chargerimages/battery_charging_04.rle \
-    device/lge/thunderc/chargemode/chargerimages/battery_charging_05.rle:root/chargerimages/battery_charging_05.rle \
-    device/lge/thunderc/chargemode/chargerimages/battery_charging_06.rle:root/chargerimages/battery_charging_06.rle \
-    device/lge/thunderc/chargemode/chargerimages/battery_wait_ani_01.rle:root/chargerimages/battery_wait_ani_01.rle \
-    device/lge/thunderc/chargemode/chargerimages/battery_wait_ani_02.rle:root/chargerimages/battery_wait_ani_02.rle \
+    device/lge/thunderc/files/initlogo.rle:root/initlogo.rle \
+    device/lge/thunderc/files/chargerlogo:root/sbin/chargerlogo \
+    device/lge/thunderc/files/chargerimages/battery_ani_01.rle:root/chargerimages/battery_ani_01.rle \
+    device/lge/thunderc/files/chargerimages/battery_ani_02.rle:root/chargerimages/battery_ani_02.rle \
+    device/lge/thunderc/files/chargerimages/battery_ani_03.rle:root/chargerimages/battery_ani_03.rle \
+    device/lge/thunderc/files/chargerimages/battery_ani_04.rle:root/chargerimages/battery_ani_04.rle \
+    device/lge/thunderc/files/chargerimages/battery_ani_05.rle:root/chargerimages/battery_ani_05.rle \
+    device/lge/thunderc/files/chargerimages/battery_charging_01.rle:root/chargerimages/battery_charging_01.rle \
+    device/lge/thunderc/files/chargerimages/battery_charging_02.rle:root/chargerimages/battery_charging_02.rle \
+    device/lge/thunderc/files/chargerimages/battery_charging_03.rle:root/chargerimages/battery_charging_03.rle \
+    device/lge/thunderc/files/chargerimages/battery_charging_04.rle:root/chargerimages/battery_charging_04.rle \
+    device/lge/thunderc/files/chargerimages/battery_charging_05.rle:root/chargerimages/battery_charging_05.rle \
+    device/lge/thunderc/files/chargerimages/battery_charging_06.rle:root/chargerimages/battery_charging_06.rle \
+    device/lge/thunderc/files/chargerimages/battery_notenough.rle:root/chargerimages/battery_notenough.rle \
+    device/lge/thunderc/files/chargerimages/battery_bg.rle:root/chargerimages/battery_bg.rle \
+    device/lge/thunderc/files/chargerimages/black_bg.rle:root/chargerimages/black_bg.rle \
+    device/lge/thunderc/files/chargerimages/battery_wait_ani_01.rle:root/chargerimages/battery_wait_ani_01.rle \
+    device/lge/thunderc/files/chargerimages/battery_wait_ani_01.rle:root/chargerimages/battery_wait_ani_02.rle \
+    device/lge/thunderc/files/etc/init.local.rc:/system/etc/init.local.rc
+
+# Locate vendor bootimage files, or use generic files if not present.
+#
+# Note we currently use a single bootlogo binary, which is from VM/Sprint.
+# It requires files 12 named "sprint_power_on_%02d.rle".  If the bootlogo
+# from other models can be located and dissected, the bootlogo binary may
+# become model specific.
+#
+# Also note that both the bootlogo and chargerlogo files might fit in
+# better under vendor/lge/thunderc/proprietary.
+PRODUCT_COPY_FILES += \
+    device/lge/thunderc/files/bootlogo:root/sbin/bootlogo
+
+BOOTIMAGE_FILES := $(wildcard device/lge/thunderc/files/$(SUB_MODEL)/bootimages/*.rle)
+ifeq ($(BOOTIMAGE_FILES),)
+BOOTIMAGE_FILES := $(wildcard device/lge/thunderc/files/GENERIC/bootimages/*.rle)
+endif
+PRODUCT_COPY_FILES += \
+    $(foreach f,$(BOOTIMAGE_FILES),$(f):root/bootimages/$(notdir $(f)))
+
 
 # Backlight
 PRODUCT_COPY_FILES += \
@@ -164,6 +178,10 @@ PRODUCT_COPY_FILES += \
     vendor/lge/thunderc/proprietary/lib/liba2dp.so:obj/lib/liba2dp.so \
     vendor/lge/thunderc/proprietary/lib/libaudioeq.so:system/lib/libaudioeq.so \
     vendor/lge/thunderc/proprietary/etc/AutoVolumeControl.txt:system/etc/AutoVolumeControl.txt
+
+# Bootsound (copy shell script)
+PRODUCT_COPY_FILES += \
+    vendor/cyanogen/prebuilt/common/bin/bootsound:system/bin/bootsound
 
 # Device permissions
 PRODUCT_COPY_FILES += \
@@ -318,6 +336,7 @@ CDMA_CARRIER_NUMERIC := 311490
 
 
 PRODUCT_PROPERTY_OVERRIDES += \
+ro.config.play.bootsound=1 \
     ro.com.google.clientidbase=$(CDMA_GOOGLE_BASE) \
     ro.cdma.home.operator.alpha=$(CDMA_CARRIER_ALPHA) \
     ro.cdma.home.operator.numeric=$(CDMA_CARRIER_NUMERIC) \
