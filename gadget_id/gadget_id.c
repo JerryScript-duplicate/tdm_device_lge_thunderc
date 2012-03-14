@@ -35,7 +35,7 @@ int main() {
         goto write;
     }
     property_get("persist.service.adb.enable", prop, "1");
-    if(1) {
+    if(prop[0] == '1') {
         strncpy(new_id, ADB, 5);
         LOGI("Changing ID to ADB: %s", ADB);
         goto write;
