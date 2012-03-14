@@ -82,14 +82,18 @@ PRODUCT_COPY_FILES += \
 # OFFLINE CHARGING
 PRODUCT_COPY_FILES += \
     vendor/lge/thunderc/proprietary/$(SUB_MODEL)/sbin/bootlogo:root/sbin/bootlogo \
-    vendor/lge/thunderc/proprietary/$(SUB_MODEL)/bootimages/opening_01.rle:root/bootimages/opening_01.rle \
-    vendor/lge/thunderc/proprietary/$(SUB_MODEL)/bootimages/opening_02.rle:root/bootimages/opening_02.rle \
-    vendor/lge/thunderc/proprietary/$(SUB_MODEL)/bootimages/opening_03.rle:root/bootimages/opening_03.rle \
-    vendor/lge/thunderc/proprietary/$(SUB_MODEL)/bootimages/opening_04.rle:root/bootimages/opening_04.rle \
-    vendor/lge/thunderc/proprietary/$(SUB_MODEL)/bootimages/opening_05.rle:root/bootimages/opening_05.rle \
-    vendor/lge/thunderc/proprietary/$(SUB_MODEL)/bootimages/opening_06.rle:root/bootimages/opening_06.rle \
-    vendor/lge/thunderc/proprietary/$(SUB_MODEL)/bootimages/opening_07.rle:root/bootimages/opening_07.rle \
-    vendor/lge/thunderc/proprietary/$(SUB_MODEL)/bootimages/opening_08.rle:root/bootimages/opening_08.rle \
+    vendor/lge/thunderc/proprietary/$(SUB_MODEL)/bootimages/sprint_power_on_00.rle:root/bootimages/sprint_power_on_00.rle \
+    vendor/lge/thunderc/proprietary/$(SUB_MODEL)/bootimages/sprint_power_on_01.rle:root/bootimages/sprint_power_on_01.rle \
+    vendor/lge/thunderc/proprietary/$(SUB_MODEL)/bootimages/sprint_power_on_02.rle:root/bootimages/sprint_power_on_02.rle \
+    vendor/lge/thunderc/proprietary/$(SUB_MODEL)/bootimages/sprint_power_on_03.rle:root/bootimages/sprint_power_on_03.rle \
+    vendor/lge/thunderc/proprietary/$(SUB_MODEL)/bootimages/sprint_power_on_04.rle:root/bootimages/sprint_power_on_04.rle \
+    vendor/lge/thunderc/proprietary/$(SUB_MODEL)/bootimages/sprint_power_on_05.rle:root/bootimages/sprint_power_on_05.rle \
+    vendor/lge/thunderc/proprietary/$(SUB_MODEL)/bootimages/sprint_power_on_06.rle:root/bootimages/sprint_power_on_06.rle \
+    vendor/lge/thunderc/proprietary/$(SUB_MODEL)/bootimages/sprint_power_on_07.rle:root/bootimages/sprint_power_on_07.rle \
+    vendor/lge/thunderc/proprietary/$(SUB_MODEL)/bootimages/sprint_power_on_08.rle:root/bootimages/sprint_power_on_08.rle \
+    vendor/lge/thunderc/proprietary/$(SUB_MODEL)/bootimages/sprint_power_on_01.rle:root/bootimages/sprint_power_on_09.rle \
+    vendor/lge/thunderc/proprietary/$(SUB_MODEL)/bootimages/sprint_power_on_01.rle:root/bootimages/sprint_power_on_10.rle \
+    vendor/lge/thunderc/proprietary/$(SUB_MODEL)/bootimages/sprint_power_on_01.rle:root/bootimages/sprint_power_on_11.rle \
     vendor/lge/thunderc/proprietary/$(SUB_MODEL)/sbin/chargerlogo:root/sbin/chargerlogo \
     vendor/lge/thunderc/proprietary/$(SUB_MODEL)/chargerimages/black_bg.rle:root/chargerimages/black_bg.rle \
     vendor/lge/thunderc/proprietary/$(SUB_MODEL)/chargerimages/battery_bg.rle:root/chargerimages/battery_bg.rle \
@@ -313,9 +317,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     vendor/lge/thunderc/proprietary/$(SUB_MODEL)/system/etc/firmware/BCM4325D1_004.002.004.0218.0248.hcd:system/etc/firmware/BCM4325D1_004.002.004.0218.0248.hcd
     
-# FONTS
-PRODUCT_COPY_FILES += \
-    vendor/lge/thunderc/proprietary/$(SUB_MODEL)/fonts/Noxchia.ttf:system/fonts/Noxchia.ttf
 
 # IDC file
 PRODUCT_COPY_FILES += \
@@ -324,10 +325,11 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_COPY_FILES += \
     vendor/lge/thunderc/packages/app/usbstorage.apk:system/app/usbstorage.apk \
+    vendor/lge/thunderc/packages/app/Trebuchet.apk:system/app/Trebuchet.apk
 
 
 
-PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=quattrimus
+PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=BACKside
 PRODUCT_NAME := full_thunderc
 PRODUCT_DEVICE := thunderc
 PRODUCT_BRAND := LGE
