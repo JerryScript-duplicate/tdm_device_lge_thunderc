@@ -1,8 +1,13 @@
-on boot-ftm-power
-    exec sbin/ftm_power
-
-on boot-pause
+on charger
     exec sbin/chargerlogo
+
+service bootlogo /sbin/bootlogo
+    user root
+    group root
+    oneshot
+
+on early-boot
+    start bootlogo
 
 on boot
 	chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
