@@ -1,47 +1,10 @@
+on boot-ftm-power
+    exec sbin/ftm_power
+
 on boot-pause
     exec sbin/chargerlogo
 
-service bootlogo sbin/bootlogo
-	user root
-	group root
-	oneshot
-
-on early-boot
-        start bootlogo
-
 on boot
-
-# add tweaks from github:inferiorhumanorgans (IHO) gingerbread
-	# Update the mountpoints to noatime
-	mount yaffs2 mtd@system /system ro remount noatime
-	mount yaffs2 mtd@userdata /data remount nosuid nodev noatime
-	mount yaffs2 mtd@cache /cache remount nosuid nodev noatime
-
-	# Increase the read ahead cache from 128KB to 2048KB (SD)
-	write /sys/devices/virtual/bdi/179:0/read_ahead_kb 2048
-
-	#  Increase the read ahead cache from 4KB to 512KB (/data)
-	write /sys/devices/virtual/mtd/mtd6/mtdblock6/queue/read_ahead_kb 512
-
-	#  Increase the read ahead cache from 4KB to 512KB (/system)
-	write /sys/devices/virtual/mtd/mtd6/mtdblock5/queue/read_ahead_kb 512
-
-	# Mark the internal NAND as non-rotational just in case
-	write /sys/devices/virtual/mtd/mtd1/mtdblock1/queue/rotational 0
-	write /sys/devices/virtual/mtd/mtd5/mtdblock5/queue/rotational 0
-	write /sys/devices/virtual/mtd/mtd6/mtdblock6/queue/rotational 0
-# end IHO tweaks
-
-    mkdir /data/radio 0770 radio radio
-
-    mkdir /data/amit 0777 ami304d ami304d
-    chmod 0666 /data/amit/AMI306_Config.ini
-    chmod 0666 /data/amit/AMI306_Config2.ini
-
-    chown compass system /sys/bus/i2c/drivers/proximity_gp2ap/4-0044/enable
-    chmod 0660 /sys/bus/i2c/drivers/proximity_gp2ap/4-0044/enable
-## LGE's bluetooth stuff
-# bluetooth permissions
 	chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
 	chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
 	chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
@@ -53,7 +16,6 @@ on boot
 	chown bluetooth bluetooth /dev/ttyHS0
 	chmod 0660 /dev/ttyHS0
 	chmod 0666 /dev/msm_snd
-
 ## VIBRATOR
     chmod 0666 /sys/class/timed_output/vibrator/amp
 ## SENSOR
@@ -125,21 +87,16 @@ on boot
 	chown system system /dev/cpu_dma_latency
 	chmod 0660 /dev/cpu_dma_latency
 
-# WIFI
-    mkdir /data/misc/wifi/sockets 0770 wifi wifi
-    setprop wifi.supplicant_scan_interval 20
-    setprop wifi.interface wlan0
-    mkdir /data/misc/dhcp 0777 system system
+    mkdir /data/radio 0770 radio radio
+	chown system radio /dev/rtc1
+	chmod 0660 radio /dev/rtc1
+	exec /system/xbin/busybox rm /data/gadget.pid
 
+# WIFI
+	mkdir /data/misc/wifi/sockets 0770 wifi wifi
 #DHCP
     mkdir /data/misc/dhcp 0777 system system
     chmod 0666 /data/bdaddr
-
-# Collect ramconsole data
-	copy /proc/last_kmsg /data/dontpanic/last_kmsg
-        copy /proc/sysvipc/msg /data/dontpanic/sysvipc_msg
-	chown root log /data/dontpanic/last_kmsg
-	chmod 0640 /data/dontpanic/last_kmsg
 
 service bdaddr /system/bin/bdaddr_read
     user root
@@ -149,49 +106,66 @@ service bdaddr /system/bin/bdaddr_read
 on property:init.svc.bootanim=running
     start bdaddr
 
-service qmuxd /system/bin/qmuxd
-    user radio
-    group radio
-service ami304d /system/bin/ami304d
-    user compass
-    group system
-
-service hciattach /system/bin/sh /system/bin/init.qcom.bt.sh
+service hciattach /system/bin/brcm_patchram_plus -d --baudrate 4000000 --patchram /system/bin/BCM4325D1_004.002.004.0218.0248.hcd --enable_hci /dev/ttyHS0
     user bluetooth
     group bluetooth net_bt_admin
     disabled
+    oneshot
 
-service wpa_supplicant /system/bin/wpa_supplicant -Dwext -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf
-    socket wpa_wlan0 dgram 660 wifi wifi
-    group system wifi inet
+service qmuxd /system/bin/qmuxd 
+
+service ami304d /system/bin/ami304d
+
+service wpa_supplicant /system/bin/wpa_supplicant -Dwext -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf #-dd
+	socket wpa_wlan0 dgram 660 wifi wifi
+	group system wifi inet
+	disabled
+	oneshot
+
+service iprenew_wlan0 /system/bin/dhcpcd -n wlan0
     disabled
     oneshot
 
-# this was added to gingerbread IHO
-# may not be needed on ICS
-#service iprenew_wlan0 /system/bin/dhcpcd -n wlan0
-#    disabled
-#    oneshot
-
-service dhcpcd_wlan0 /system/bin/dhcpcd -BKA wlan0
-    disabled
-    oneshot
+service dhcpcd_wlan0 /system/bin/dhcpcd -BKL wlan0
+	disabled
+	oneshot
 
 on property:init.svc.wpa_supplicant=stopped
-    stop dhcpcd_wlan0
+stop dhcpcd_wlan0
 
-# cribbed from IHO
-# Adb over Network
-on property:service.adb.tcp.port=5555
-    stop adbd
-    start adbd
-on property:service.adb.tcp.port=-1
-    stop adbd
-    start adbd
+#service port-bridge /system/bin/port-bridge /dev/smd0 /dev/ttyGS0
+#    socket port_bridge stream 660 root radio
+#    disabled
 
-# cribbed from IHO
-on property:dev.bootcomplete=1
-	start qcom-post-boot
+#on property:init.svc.bootanim=stopped
+#    start port-bridge
+
+#service rmt_storage /system/bin/rmt_storage /dev/block/mmcblk0p10 /dev/block/mmcblk0p11
+#    user root
+#    socket port_bridge stream 660 root radio
+#    disabled
+#
+#service netmgrd /system/bin/netmgrd -E
+#    disabled
+#
+#on property:ro.use_data_netmgrd=true
+#    start netmgrd
+
+service wiperiface /system/bin/wiperiface
+    user location
+    group qcom_oncrpc
+    oneshot
+
+# bugreport is triggered by the KEY_VOLUME_DOWN and KEY_MENU keycodes
+service bugreport /system/bin/logwrapper /system/bin/dumpstate -d -v -o /sdcard/bugreports/bugreport
+	disabled
+	oneshot
+	keycodes 114 139
+
+# mcs6000 TOUCH F/W AUTO upgrade run
+# LGE_CHANGE_S [ynj.kim,2010-06-23 ]
+service tsdown /system/bin/tsdown
+	oneshot
 
 service gadget_id /system/bin/gadget_id
     user root
@@ -210,5 +184,7 @@ on property:net.usb_tethering=1
 on property:net.usb_tethering=0
     start gadget_id
 
-on property:dev.bootcomplete=1
-    exec /system/bin/hwaddrs
+service bootlogo sbin/bootlogo
+	user root
+	group root
+	oneshot
